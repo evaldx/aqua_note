@@ -1,9 +1,13 @@
-<h1>The Genus {{ name }}</h1>
+{% extends 'base.html.twig' %}
 
-{{ dump() }}
+{% block title %}Genus {{ name }}{% endblock %}
+
+{% block body %}
+<h1>The Genus {{ name }}</h1>
 
 <ul>
     {% for note in notes %}
         <li>{{ note }}</li>
     {% endfor %}
 </ul>
+{% endblock %}
