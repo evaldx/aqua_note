@@ -8,7 +8,7 @@
 
 namespace AppBundle\Controller;
 
-
+use AppBundle\Entity\Genus;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -25,6 +25,8 @@ class GenusController extends Controller
     {
         $genus = new Genus();
         $genus->setName('Octopus'.rand(1, 100));
+        $genus->setSubFamily('Octopodienae');
+        $genus->setSpeciesCount(rand(100, 99999));
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($genus);
