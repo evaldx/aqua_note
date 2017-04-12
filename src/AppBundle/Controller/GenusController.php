@@ -59,7 +59,8 @@ class GenusController extends Controller
             ->findOneBy(['name' => $genusName]);
 
         if (!$genus) {
-            throw $this->createNotFoundException('No genus found');
+            //throw $this->createNotFoundException('No genus found');
+            return $this->render('genus/404.html.twig');
         }
 
         /*$funFact = 'Octopuses can change the color of their body in just *three-tenths* of a second!';*/
