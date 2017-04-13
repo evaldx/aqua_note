@@ -9,6 +9,6 @@ AppBundle\Entity\Genus:
 AppBundle\Entity\GenusNote:
     genus.note_{1..100}:
         username: <userName()>
-        useAvatarFilename: '50%? leanna.jpeg : ryan.jpeg'
+        userAvatarFilename: '50%? leanna.jpeg : ryan.jpeg'
         note: <paragraph()>
         createdAt: <dateTimeBetween('-6 months', 'now')>

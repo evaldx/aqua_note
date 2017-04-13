@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="GenusNoteRepository")
  * @ORM\Table(name="genus_note")
  */
 class GenusNote
@@ -32,7 +32,7 @@ class GenusNote
     /**
      * @ORM\Column(type="string")
      */
-    private $useAvatarFilename;
+    private $userAvatarFilename;
 
     /**
      * @ORM\Column(type="text")
@@ -43,6 +43,29 @@ class GenusNote
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Genus")
+     */
+
+    private $genus;
+
+    /**
+     * @return mixed
+     */
+    public function getGenus()
+    {
+        return $this->genus;
+    }
+
+    /**
+     * @param mixed $genus
+     */
+    public function setGenus(Genus $genus)
+    {
+        $this->genus = $genus;
+    }
+
 
     /**
      * @return mixed
@@ -71,17 +94,17 @@ class GenusNote
     /**
      * @return mixed
      */
-    public function getUseAvatarFilename()
+    public function getUserAvatarFilename()
     {
-        return $this->useAvatarFilename;
+        return $this->userAvatarFilename;
     }
 
     /**
-     * @param mixed $useAvatarFilename
+     * @param mixed $userAvatarFilename
      */
-    public function setUseAvatarFilename($useAvatarFilename)
+    public function setUserAvatarFilename($userAvatarFilename)
     {
-        $this->useAvatarFilename = $useAvatarFilename;
+        $this->userAvatarFilename = $userAvatarFilename;
     }
 
     /**
