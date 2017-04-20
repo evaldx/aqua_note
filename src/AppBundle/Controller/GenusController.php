@@ -74,9 +74,7 @@ class GenusController extends Controller
             return $this->render('genus/404.html.twig');
         }
 
-        $transformer = new MarkdownTransformer(
-            $this->get('markdown.parser')
-        );
+        $transformer = $this->get('app.markdown_transformer');
         $funFact = $transformer->parse($genus->getFunFact());
 
         /*$funFact = 'Octopuses can change the color of their body in just *three-tenths* of a second!';*/
