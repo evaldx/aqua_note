@@ -6,21 +6,19 @@
             <tr>
                 <th>Genus</th>
                 <th># of species</th>
-                <th>Last Updated</th>
+                <th>Last updated</th>
             </tr>
         </thead>
         <tbody>
             {% for genus in genuses %}
                 <tr>
                     <td>
-                        <a href="{{ path('genus_show', {
-                            'genusName': genus.name
-                        }) }}">{{ genus.name }}</a>
+                        <a href="{{ path('genus_show', {'genusName': genus.name}) }}">
+                            {{ genus.name }}
+                        </a>
                     </td>
                     <td>{{ genus.speciesCount }}</td>
-                    <td>
-                        {{ genus.updatedAt|date('Y-m-d') }}
-                    </td>
+                    <td>{{ genus.updatedAt|date('Y-m-d') }}</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -1,19 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: evalds
- * Date: 17.20.4
- * Time: 16:17
- */
 
 namespace AppBundle\Twig;
-
 
 use AppBundle\Service\MarkdownTransformer;
 
 class MarkdownExtension extends \Twig_Extension
 {
-
     private $markdownTransformer;
 
     public function __construct(MarkdownTransformer $markdownTransformer)

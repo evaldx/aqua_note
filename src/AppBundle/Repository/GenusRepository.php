@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: evalds
- * Date: 17.13.4
- * Time: 14:04
- */
 
 namespace AppBundle\Repository;
 
-
+use AppBundle\Entity\Genus;
 use Doctrine\ORM\EntityRepository;
 
 class GenusRepository extends EntityRepository

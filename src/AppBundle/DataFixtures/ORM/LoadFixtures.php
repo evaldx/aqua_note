@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: evalds
- * Date: 17.13.4
- * Time: 13:26
- */
 
 namespace AppBundle\DataFixtures\ORM;
 
@@ -13,12 +7,11 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Nelmio\Alice\Fixtures;
 
-
 class LoadFixtures implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        Fixtures::load(
+        $objects = Fixtures::load(
             __DIR__.'/fixtures.yml',
             $manager,
             [
@@ -32,9 +25,10 @@ class LoadFixtures implements FixtureInterface
         $genera = [
             'Octopus',
             'Balaena',
+            'Orcinus',
             'Hippocampus',
             'Asterias',
-            'Amphirion',
+            'Amphiprion',
             'Carcharodon',
             'Aurelia',
             'Cucumaria',

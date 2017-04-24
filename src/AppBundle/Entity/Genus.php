@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: evalds
- * Date: 17.7.4
- * Time: 16:58
- */
 
 namespace AppBundle\Entity;
 
@@ -15,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\GenusRepository")
  * @ORM\Table(name="genus")
  */
-
 class Genus
 {
     /**
@@ -31,7 +24,8 @@ class Genus
     private $name;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SubFamily")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $subFamily;
 
@@ -48,11 +42,16 @@ class Genus
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isPublished = false;
+    private $isPublished = true;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $firstDiscoveredAt;
 
     /**
      * @ORM\OneToMany(targetEntity="GenusNote", mappedBy="genus")
-     * @ORM\OrderBy({"createdAt"="DESC"})
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $notes;
 
@@ -61,64 +60,44 @@ class Genus
         $this->notes = new ArrayCollection();
     }
 
-    /**
-     * @return mixed
-     */
     public function getName()
     {
         return $this->name;
     }
-    /**
-     * @param mixed $name
-     */
+
     public function setName($name)
     {
         $this->name = $name;
     }
 
     /**
-     * @return mixed
+     * @return SubFamily
      */
     public function getSubFamily()
     {
         return $this->subFamily;
     }
 
-    /**
-     * @param mixed $subFamily
-     */
-    public function setSubFamily($subFamily)
+    public function setSubFamily(SubFamily $subFamily = null)
     {
         $this->subFamily = $subFamily;
     }
 
-    /**
-     * @return mixed
-     */
     public function getSpeciesCount()
     {
         return $this->speciesCount;
     }
 
-    /**
-     * @param mixed $speciesCount
-     */
     public function setSpeciesCount($speciesCount)
     {
         $this->speciesCount = $speciesCount;
     }
 
-    /**
-     * @return mixed
-     */
     public function getFunFact()
     {
         return '**TEST** '.$this->funFact;
     }
 
-    /**
-     * @param mixed $funFact
-     */
     public function setFunFact($funFact)
     {
         $this->funFact = $funFact;
@@ -129,9 +108,6 @@ class Genus
         return new \DateTime('-'.rand(0, 100).' days');
     }
 
-    /**
-     * @param mixed $isPublished
-     */
     public function setIsPublished($isPublished)
     {
         $this->isPublished = $isPublished;
@@ -145,4 +121,13 @@ class Genus
         return $this->notes;
     }
 
+    public function getFirstDiscoveredAt()
+    {
+        return $this->firstDiscoveredAt;
+    }
+
+    public function setFirstDiscoveredAt(\DateTime $firstDiscoveredAt = null)
+    {
+        $this->firstDiscoveredAt = $firstDiscoveredAt;
+    }
 }

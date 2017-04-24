@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: evalds
- * Date: 17.4.4
- * Time: 16:07
- */
 
 namespace AppBundle\Controller;
 
@@ -19,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GenusController extends Controller
 {
-
     /**
      * @Route("/genus/new")
      */
@@ -27,7 +20,7 @@ class GenusController extends Controller
     {
         $genus = new Genus();
         $genus->setName('Octopus'.rand(1, 100));
-        $genus->setSubFamily('Octopodienae');
+        $genus->setSubFamily('Octopodinae');
         $genus->setSpeciesCount(rand(100, 99999));
 
         $genusNote = new GenusNote();
@@ -51,12 +44,12 @@ class GenusController extends Controller
     public function listAction()
     {
         $em = $this->getDoctrine()->getManager();
-        //dump($em->getRepository('AppBundle:Genus'));
+
         $genuses = $em->getRepository('AppBundle:Genus')
             ->findAllPublishedOrderedByRecentlyActive();
 
         return $this->render('genus/list.html.twig', [
-            'genuses' => $genuses,
+            'genuses' => $genuses
         ]);
     }
 
@@ -66,60 +59,39 @@ class GenusController extends Controller
     public function showAction($genusName)
     {
         $em = $this->getDoctrine()->getManager();
+
         $genus = $em->getRepository('AppBundle:Genus')
             ->findOneBy(['name' => $genusName]);
 
         if (!$genus) {
-            //throw $this->createNotFoundException('No genus found');
-            return $this->render('genus/404.html.twig');
+            throw $this->createNotFoundException('genus not found');
         }
 
-        $transformer = $this->get('app.markdown_transformer');
-        $funFact = $transformer->parse($genus->getFunFact());
-
-        /*$funFact = 'Octopuses can change the color of their body in just *three-tenths* of a second!';*/
-
-        /*$cache = $this->get('doctrine_cache.providers.my_evald_cache');
-        $key = md5($funFact);
-        if($cache->contains($key)){
-            $funFact = $cache->fetch($key);
-        }else{
-            sleep(1);
-            $funFact = $this->get('markdown.parser')
-                ->transform($funFact);
-            $cache->save($key, $funFact);
-        }*/
+        $markdownTransformer = $this->get('app.markdown_transformer');
+        $funFact = $markdownTransformer->parse($genus->getFunFact());
 
         $this->get('logger')
             ->info('Showing genus: '.$genusName);
 
-        /*$recentNotes = $genus->getNotes()
-            ->filter(function (GenusNote $note){
-                return $note->getCreatedAt() > new \DateTime('-3 months');
-            });*/
-
         $recentNotes = $em->getRepository('AppBundle:GenusNote')
             ->findAllRecentNotesForGenus($genus);
 
-
-
-        return $this->render('genus/show.html.twig', [
+        return $this->render('genus/show.html.twig', array(
             'genus' => $genus,
             'funFact' => $funFact,
             'recentNoteCount' => count($recentNotes)
-        ]);
-
+        ));
     }
 
     /**
      * @Route("/genus/{name}/notes", name="genus_show_notes")
      * @Method("GET")
      */
-
     public function getNotesAction(Genus $genus)
     {
         $notes = [];
-        foreach ($genus->getNotes() as $note){
+
+        foreach ($genus->getNotes() as $note) {
             $notes[] = [
                 'id' => $note->getId(),
                 'username' => $note->getUsername(),
@@ -129,14 +101,8 @@ class GenusController extends Controller
             ];
         }
 
-        /*$notes = [
-            ['id'=>1, 'username' => 'AquaPelham', 'avatarUri' => '/images/leanna.jpeg', 'note' => 'Octopus asked', 'date' => 'Dec. 10, 2017'],
-            ['id'=>2, 'username' => 'AquaWeaver', 'avatarUri' => '/images/ryan.jpeg', 'note' => 'Octopus asked', 'date' => 'Dec. 11, 2017'],
-            ['id'=>3, 'username' => 'AquaPelahm', 'avatarUri' => '/images/leanna.jpeg', 'note' => 'Inked!', 'date' => 'Aug. 20, 2017']
-        ];*/
-
         $data = [
-            'notes' => $notes,
+            'notes' => $notes
         ];
 
         return new JsonResponse($data);
